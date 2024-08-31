@@ -12,4 +12,9 @@ export default defineNuxtConfig({
   },
 
   modules: ['@nuxt/eslint', '@pinia/nuxt',],
-})
+  // eslint: {
+  //   semi: false,
+  //   indent: 4, // 4 or 'tab'
+  //   quotes: "single",
+  // },
+});

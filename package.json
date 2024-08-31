@@ -6,6 +6,7 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "lint": "eslint .",
+    "format": "prettier --write \"{components,pages,plugins,middleware,layouts,composables,assets}/**/*.{js,jsx,ts,tsx,vue,html,css,scss,json,md}\"",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -18,10 +19,15 @@
   },
   "devDependencies": {
     "@nuxt/eslint-config": "^0.5.4",
+    "@types/eslint-config-prettier": "^6.11.3",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.9.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
     "postcss": "^8.4.41",
-    "tailwindcss": "^3.4.10"
+    "prettier": "^3.3.3",
+    "tailwindcss": "^3.4.10",
+    "vue-eslint-parser": "^9.4.3"
   },
   "overrides": {
     "vue": "latest"
