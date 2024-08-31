@@ -5,18 +5,25 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "lint": "eslint .",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxt/eslint": "^0.5.4",
     "@pinia/nuxt": "^0.5.4",
     "nuxt": "^3.13.0",
     "vue": "latest"
   },
   "devDependencies": {
+    "@nuxt/eslint-config": "^0.5.4",
     "autoprefixer": "^10.4.20",
+    "eslint": "^9.9.1",
     "postcss": "^8.4.41",
     "tailwindcss": "^3.4.10"
+  },
+  "overrides": {
+    "vue": "latest"
   }
 }
