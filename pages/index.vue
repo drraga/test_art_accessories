@@ -2,15 +2,14 @@
   <main class="container mx-auto px-4 py-8 relative">
     <TablePosts />
 
-    <div class="absolute top-16 right-0">
-      <ButtonPagination textButton="More posts" @click="incrementPage" />
-    </div>
+    <VLoader v-if="getLoadingState" />
   </main>
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { usePostsStore } from "~/stores/posts";
 const postStore = usePostsStore();
 
-const { incrementPage } = postStore;
+const { getLoadingState } = storeToRefs(postStore);
 </script>

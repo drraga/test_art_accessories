@@ -1,10 +1,12 @@
 interface Post {
   /** User Id */
-  userId: number
+  userId: number;
   /**  Post Id */
-  id: number
+  id: number;
   /** Post title */
-  title: string
+  title: string;
   /** Body title */
-  body: string
+  body: string;
 }
+
+type labelsGroup = "id" | "title" | "body";

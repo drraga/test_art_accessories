@@ -18,6 +18,9 @@ export const usePostsStore = defineStore("posts", {
   },
   actions: {
     incrementPage() {
+      if (this.isLoading) {
+        return;
+      }
       this.page++;
     },
     setPosts(postsFromServer: Post[]) {
