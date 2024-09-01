@@ -11,11 +11,17 @@
         </caption>
 
         <thead>
-          <tr class="bg-gray-100">
+          <tr class="table__header bg-gray-100">
             <th
-              v-for="key in tableKeys"
-              :key="key"
-              class="px-4 py-2 text-xs font-medium text-gray-500 capitalize tracking-wider"
+              v-for="(key, i) in tableKeys"
+              :key="i"
+              class="px-4 py-2 text-xs font-medium text-gray-500 capitalize tracking-wider relative"
+              :class="{
+                'pointer-events-none': i !== 0,
+                'cursor-pointer': i === 0,
+                'is-descending': isDescending,
+              }"
+              @click="isDescending = !isDescending"
             >
               {{ key }}
             </th>
@@ -23,19 +29,21 @@
         </thead>
 
         <tbody>
-          <tr
-            v-for="post in getPosts"
-            :key="post.id"
-            class="hover:bg-gray-200 transition-colors duration-500 ease-linear"
-          >
-            <td
-              v-for="key in tableKeys"
-              :key="key"
-              class="px-4 py-2 border border-gray-200"
+          <TransitionGroup name="fade">
+            <tr
+              v-for="post in sortedPostsByIds"
+              :key="post.id"
+              class="hover:bg-gray-200 transition-all duration-500 ease-linear"
             >
-              {{ post[key as labelsGroup] }}
-            </td>
-          </tr>
+              <td
+                v-for="key in tableKeys"
+                :key="key"
+                class="item px-4 py-2 transition-all"
+              >
+                {{ post[key as labelsGroup] }}
+              </td>
+            </tr>
+          </TransitionGroup>
         </tbody>
       </table>
 
@@ -111,4 +119,48 @@ watch(
     immediate: true,
   },
 );
+
+const isDescending = ref(false);
+
+const sortedPostsByIds = computed(() => {
+  if (isDescending.value) {
+    return getPosts.value.toSorted((a, b) => b.id - a.id);
+  }
+
+  return getPosts.value;
+});
 </script>
+
+<style>
+.table__header > th:first-child::after {
+  content: " ";
+  position: absolute;
+  width: 0.375rem;
+  height: 0.375rem;
+  top: 50%;
+  right: 10%;
+  border-left: 0.125rem solid #000;
+  border-bottom: 0.125rem solid #000;
+  transform: translateY(-50%) rotate(-45deg);
+  transition: transform 0.35s ease-in-out;
+}
+
+.table__header > th.is-descending:first-child::after {
+  transform: translateY(-50%) rotate(-225deg);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.35s ease-in-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: scaleY(0.01) translate(2rem, 0);
+}
+
+.fade-leave-active {
+  position: absolute;
+}
+</style>
