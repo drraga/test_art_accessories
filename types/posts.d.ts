@@ -10,3 +10,13 @@ interface Post {
 }
 
 type labelsGroup = "id" | "title" | "body";
+
+interface FormFields {
+  [key: string]: string;
+  /** User Id */
+  userId: string;
+  /** Post title */
+  title: string;
+  /** Body title */
+  body: string;
+}
