@@ -48,11 +48,20 @@
       </table>
 
       <div class="absolute top-9 md:top-0 left-auto md:right-0 flex gap-4">
-        <VButton text-button="Load more" @click="incrementPage" />
+        <VButton button-text="Load more" @click="incrementPage" />
 
-        <VButton text-button="Create post" />
+        <VButton button-text="Create post" @click="isModalOpen = true" />
       </div>
     </div>
+
+    <Teleport to="body">
+      <VModal
+        :show-modal="isModalOpen"
+        @close-modal="(value) => (isModalOpen = value)"
+      >
+        <template #header>Create post</template>
+      </VModal>
+    </Teleport>
   </template>
 
   <div v-if="getLoadingState">
@@ -67,6 +76,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { usePostsStore } from "~/stores/posts";
+import VModal from "./VModal.vue";
 const postsStore = usePostsStore();
 
 const { getPosts, getPage, getLoadingState } = storeToRefs(postsStore);
@@ -129,9 +139,11 @@ const sortedPostsByIds = computed(() => {
 
   return getPosts.value;
 });
+
+const isModalOpen = ref(false);
 </script>
 
-<style>
+<style scoped>
 .table__header > th:first-child::after {
   content: " ";
   position: absolute;

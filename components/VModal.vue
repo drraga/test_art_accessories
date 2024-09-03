@@ -1,0 +1,62 @@
+<template>
+  <Transition name="modal">
+    <div
+      v-if="props.showModal"
+      class="fixed z-10 inset-0 bg-black bg-opacity-50 flex justify-center items-center transition-opacity duration-100 ease-in"
+    >
+      <div
+        class="modal-container bg-white rounded-lg p-8 max-w-md mx-auto relative transition-all"
+      >
+        <span
+          class="absolute top-0 right-0 p-4 text-gray-500 hover:text-gray-700 hover:rotate-45 transition-['colors', 'transform'] duration-100 ease-in-out cursor-pointer"
+          @click="closeModalWindow"
+          >&times;</span
+        >
+        <h2 class="mb-4 text-xl font-bold text-gray-900">
+          <slot name="header">Modal header</slot>
+        </h2>
+
+        <form class="grid gap-5">
+          <VInput v-for="field in fields" :key="field" :input-type="field" />
+
+          <VButton button-text="Create post" />
+        </form>
+      </div>
+    </div>
+  </Transition>
+</template>
+
+<script setup lang="ts">
+const props = defineProps({
+  showModal: {
+    type: Boolean,
+    required: true,
+  },
+});
+
+const emit = defineEmits<{
+  (e: "closeModal", isOpen: boolean): void;
+}>();
+
+const fields = ["userId", "title", "body"];
+
+const closeModalWindow = (isOpen: boolean) => {
+  emit("closeModal", isOpen);
+};
+</script>
+
+<style scoped>
+.modal-enter-from {
+  opacity: 0;
+}
+
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-from .modal-container,
+.modal-leave-to .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+</style>

@@ -2,7 +2,9 @@
   <main class="container mx-auto px-4 py-8 relative">
     <TablePosts />
 
-    <VLoader v-if="getLoadingState" />
+    <ClientOnly>
+      <VLoader v-if="getLoadingState" />
+    </ClientOnly>
   </main>
 </template>
 
