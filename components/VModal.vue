@@ -35,6 +35,8 @@
 </template>
 
 <script setup lang="ts">
+const { $toast } = useNuxtApp();
+
 const props = defineProps({
   showModal: {
     type: Boolean,
@@ -146,8 +148,10 @@ const sendPost = async () => {
     }
 
     const data = await response.json();
+    $toast.success("Post successfully sent");
     return data;
   } catch (error) {
+    $toast.error("Failed to create post");
     console.error(error);
   } finally {
     isFormSent.value = false; // Enable send button
@@ -162,6 +166,7 @@ const handleSubmitPost = (event: Event) => {
     formDataErrors.value.title !== "" ||
     formDataErrors.value.body !== ""
   ) {
+    $toast.error("All fields to be correct");
     return;
   }
 
