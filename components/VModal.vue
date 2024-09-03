@@ -59,9 +59,9 @@ const formData = ref<FormFields>({
 const isFormSent = ref(false);
 
 const resetFormFields = () => {
-  formDataErrors.value.userId = "";
-  formDataErrors.value.title = "";
-  formDataErrors.value.body = "";
+  formData.value.userId = "";
+  formData.value.title = "";
+  formData.value.body = "";
 };
 
 const validateUserId = computed(() => {
