@@ -16,8 +16,12 @@
 
       <li v-for="page in props.paginationPages" :key="page" class="w-12">
         <a
-          class="block p-1 pt-2 hover:text-white hover:bg-blue-300 transition-colors duration-100 ease-in border-b-4 border-transparent active:border-b-4 active:border-blue-500 cursor-pointer"
-          :class="props.currentPage === page ? 'border-blue-500' : ''"
+          class="active:border-b-4 active:border-blue-500 block p-1 pt-2 hover:text-white hover:bg-blue-300 transition-colors duration-100 ease-in cursor-pointer"
+          :class="
+            props.currentPage === page
+              ? 'border-b-4 border-blue-600'
+              : 'border-b-4 border-transparent'
+          "
           @click="$emit('pageClick', page)"
           >{{ page }}</a
         >

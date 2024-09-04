@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* VLoader styles */
 @layer components {
   .slider {
     @apply overflow-hidden bg-white mx-4 h-20 w-5 rounded-full relative;
