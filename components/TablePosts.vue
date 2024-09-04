@@ -64,6 +64,8 @@
     </Teleport>
   </template>
 
+  <PaginationTable />
+
   <div v-if="getLoadingState">
     <VLoader />
   </div>
