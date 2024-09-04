@@ -1,7 +1,7 @@
 <template>
   <li class="w-12">
     <a
-      class="block p-1 hover:text-white hover:bg-blue-300 transition-colors duration-100 ease-in border-b-4 border-transparent cursor-pointer"
+      class="block p-1 pt-2 hover:text-white hover:bg-blue-300 transition-colors duration-100 ease-in border-b-4 border-transparent cursor-pointer"
     >
       {{ props.arrowsAmount === 1 ? displayArrow : displayArrow.repeat(2) }}
     </a>

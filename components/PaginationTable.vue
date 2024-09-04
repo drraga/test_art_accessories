@@ -6,7 +6,7 @@
 
       <li v-for="(_, index) in pagesToShow" :key="index" class="w-12">
         <a
-          class="block p-1 hover:text-white hover:bg-blue-300 transition-colors duration-100 ease-in border-b-4 border-transparent active:border-b-4 active:border-blue-500 cursor-pointer"
+          class="block p-1 pt-2 hover:text-white hover:bg-blue-300 transition-colors duration-100 ease-in border-b-4 border-transparent active:border-b-4 active:border-blue-500 cursor-pointer"
           >{{ index + 1 }}</a
         >
       </li>
