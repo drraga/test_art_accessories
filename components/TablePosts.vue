@@ -57,14 +57,21 @@
     <Teleport to="body">
       <VModal
         :show-modal="isModalOpen"
-        @close-modal="(value) => (isModalOpen = value)"
+        @close-modal="(value: boolean) => (isModalOpen = value)"
       >
         <template #header>Create post</template>
       </VModal>
     </Teleport>
   </template>
 
-  <PaginationTable />
+  <PaginationTable
+    :pagination-pages="visiblePaginationPages"
+    :current-page="getCurrentPage"
+    @page-click="(page: number) => onPageClick(page)"
+    @page-step-change="
+      (direction: 'increment' | 'decrement') => onPageStepChange(direction)
+    "
+  />
 
   <div v-if="getLoadingState">
     <VLoader />
@@ -78,11 +85,12 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { usePostsStore } from "~/stores/posts";
-import VModal from "./VModal.vue";
 const postsStore = usePostsStore();
 
-const { getPosts, getPage, getLoadingState } = storeToRefs(postsStore);
-const { setLoadingState, setPosts, clearPosts, incrementPage } = postsStore;
+const { getPosts, getCurrentPage, getLoadingState, getTotalPages } =
+  storeToRefs(postsStore);
+const { setLoadingState, setPosts, clearPosts, incrementPage, setCurrentPage } =
+  postsStore;
 
 const tableKeys: labelsGroup[] = ["id", "title", "body"];
 
@@ -109,17 +117,17 @@ const { data: postsServerResponse } = await useAsyncData(
   "request-posts",
   () =>
     fetchPosts(
-      `https://jsonplaceholder.typicode.com/posts?_page=${getPage.value}`,
+      `https://jsonplaceholder.typicode.com/posts?_page=${getCurrentPage.value}`,
     ),
   {
-    watch: [getPage],
+    watch: [getCurrentPage],
   },
 );
 
 watch(
   postsServerResponse,
   () => {
-    if (getPage.value === 1) {
+    if (getCurrentPage.value === 1) {
       clearPosts();
     }
 
@@ -143,6 +151,47 @@ const sortedPostsByIds = computed(() => {
 });
 
 const isModalOpen = ref(false);
+
+const visiblePaginationPages = computed(() => {
+  const start =
+    getCurrentPage.value < 8 ? Math.max(1, getCurrentPage.value - 2) : 5;
+  const end =
+    getCurrentPage.value > 2
+      ? Math.min(getTotalPages.value, getCurrentPage.value + 2)
+      : 5;
+
+  return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+});
+
+const onPageClick = (page: number) => {
+  if (page !== getCurrentPage.value) {
+    clearPosts();
+    setCurrentPage(page);
+  }
+};
+
+const onPageStepChange = (direction: "increment" | "decrement") => {
+  let page = getCurrentPage.value;
+  let pageToLoad = null;
+
+  if (direction === "decrement") {
+    if (getCurrentPage.value < 2) {
+      return;
+    }
+    pageToLoad = --page;
+  } else if (direction === "increment") {
+    if (getCurrentPage.value > getTotalPages.value - 1) {
+      return;
+    }
+    pageToLoad = ++page;
+  }
+
+  clearPosts();
+
+  if (pageToLoad !== null) {
+    setCurrentPage(pageToLoad);
+  }
+};
 </script>
 
 <style scoped>

@@ -1,19 +1,22 @@
 import { defineStore } from "pinia";
 interface PostsStore {
   posts: Post[];
-  page: number;
+  currentPage: number;
+  totalPages: number;
   isLoading: boolean;
 }
 
 export const usePostsStore = defineStore("posts", {
   state: (): PostsStore => ({
     posts: [],
-    page: 1,
+    currentPage: 1,
+    totalPages: 10,
     isLoading: false,
   }),
   getters: {
     getPosts: (state) => state.posts,
-    getPage: (state) => state.page,
+    getCurrentPage: (state) => state.currentPage,
+    getTotalPages: (state) => state.totalPages,
     getLoadingState: (state) => state.isLoading,
   },
   actions: {
@@ -21,7 +24,7 @@ export const usePostsStore = defineStore("posts", {
       if (this.isLoading) {
         return;
       }
-      this.page++;
+      this.currentPage++;
     },
     setPosts(postsFromServer: Post[]) {
       this.posts.push(...JSON.parse(JSON.stringify(postsFromServer)));
@@ -31,6 +34,9 @@ export const usePostsStore = defineStore("posts", {
     },
     clearPosts() {
       this.posts = [];
+    },
+    setCurrentPage(pageNumber: number) {
+      this.currentPage = pageNumber;
     },
   },
 });
