@@ -77,7 +77,6 @@ const validateUserId = computed(() => {
   }
 
   if (!regexUserId.test(userId)) {
-    console.log("userId", userId);
     return "UserId must be positive number";
   }
   return "";
