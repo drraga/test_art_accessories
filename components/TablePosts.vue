@@ -57,12 +57,9 @@
     </div>
 
     <Teleport to="body">
-      <VModal
-        :show-modal="isModalOpen"
-        @close-modal="(value: boolean) => (isModalOpen = value)"
-      >
-        <template #header>Create post</template>
-      </VModal>
+      <ModalCreatePost
+        @close-modal-create-post="(value: boolean) => (isModalOpen = value)"
+      />
     </Teleport>
   </template>
 
@@ -87,6 +84,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { usePostsStore } from "~/stores/posts";
+import ModalCreatePost from "./ModalCreatePost.vue";
 const postsStore = usePostsStore();
 
 const { getPosts, getCurrentPage, getLoadingState, getTotalPages } =
@@ -153,6 +151,7 @@ const sortedPostsByIds = computed(() => {
 });
 
 const isModalOpen = ref(false);
+provide("isModalOpen", isModalOpen);
 
 const visiblePaginationPages = computed(() => {
   const start =
