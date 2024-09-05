@@ -48,7 +48,9 @@
       </table>
 
       <div class="absolute top-9 md:top-0 left-auto md:right-0 flex gap-4">
-        <VButton button-text="Load more" @click="incrementPage" />
+        <template v-if="getCurrentPage < 10">
+          <VButton button-text="Load more" @click="incrementPage" />
+        </template>
 
         <VButton button-text="Create post" @click="isModalOpen = true" />
       </div>
